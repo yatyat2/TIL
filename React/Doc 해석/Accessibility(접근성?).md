@@ -185,3 +185,104 @@ CSS를 사용해야만 이 아웃라인을 삭제할 수 있다. 예를 들어 `
 
 
 
+##### Programmatically managing focus(프로그램적으로 focus를 관리하는 방법??)
+
+우리의 리액트 어플리케이션은 실행되는 동안 HTML DOM을 계속해서 수정합니다. 수정하면서 때론 키보드 포커스를 잃거나, 예상치 못한 element로 설정하기도 합니다. 이 현상을 고치기 위해서 프로그래밍적으로 키보드 포커스가 옳은 방향으로 가도록 도와줘야 합니다. 예를 들면, 모달 창이 열려있는 버튼에 대해 모달창이 닫혔을 때 재설정하는 것이라든지...(For example, by resetting keyboard focus to a button that opened a modal window after that modal window is closed.)
+
+
+
+MDN Web Docs takes a look at this and describes how we can build [keyboard-navigable JavaScript widgets](https://developer.mozilla.org/en-US/docs/Web/Accessibility/Keyboard-navigable_JavaScript_widgets).
+
+
+
+리액트에서 focus를 설정하려면 DOM요소에 Refs를 사용해야 한다.
+
+
+
+이렇게 하면, 컴포넌트 클래스의 JSX 안에서 element에 대한 ref를 만들 수 있다.
+
+```react
+class CustomTextInput extends React.Component {
+  constructor(props) {
+    super(props);
+    // Create a ref to store the textInput DOM element
+    this.textInput = React.createRef();
+  }
+  render() {
+  // Use the `ref` callback to store a reference to the text input DOM
+  // element in an instance field (for example, this.textInput).
+    return (
+      <input
+        type="text"
+        ref={this.textInput}
+      />
+    );
+  }
+}
+```
+
+이렇게 하고 나면 컴포넌트 내부의 다른 곳(코드?)에서도 input element에 focus할 수 있다. 
+
+
+
+```react
+focus() {
+  // Explicitly focus the text input using the raw DOM API
+  // Note: we're accessing "current" to get the DOM node
+  this.textInput.current.focus();
+}
+
+```
+
+부모 컴포넌트가 자식 컴포넌트의 element의 focus 설정이 필요할 때도 있다. 부모의 ref에서 자식의 DOM node로 향하는 자식 컴포넌트의 특별한 prop을 사용하면 된다.
+
+
+
+```react
+function CustomTextInput(props) {
+  return (
+    <div>
+      <input ref={props.inputRef} />
+    </div>
+  );
+}
+
+class Parent extends React.Component {
+  constructor(props) {
+    super(props);
+    this.inputElement = React.createRef();
+  }
+  render() {
+    return (
+      <CustomTextInput inputRef={this.inputElement} />
+    );
+  }
+}
+
+// Now you can set focus when required.
+this.inputElement.current.focus();
+
+```
+
+
+
+컴포넌트를 확장하기 위해서 HOC를 사용할 때, 리액트의 `forwardRef` 함수를 사용해서 ref를 감싸진 컴포넌트에게 전달하는 것이 좋다. 만약 써드 파티 HOC가 ref 전달을 지원하지 않아도, 위 패턴은 대비책으로 쓰일 수 있습니다.
+
+
+
+매우좋은 포커스 관리 예시는 react-ara-modal입니다. 이것은 접근성이 좋은 모달 창에 대한 흔치 않은 예시입니다. 초기 포커스를 취소 버튼으로 설정하고, 포커스를 모달 안쪽으로 설정할 뿐만 아니라 초기에 모달을 열게 했던 엘리먼트로 포커스를 돌아가게 합니다.
+
+
+
+(ㄹㅇ 오졌다. 접근성이 뭔지 알겠따 ㄹㅇㄹㅇㄹㅇ 소르미온드)
+
+
+
+
+
+
+
+
+
+
+
