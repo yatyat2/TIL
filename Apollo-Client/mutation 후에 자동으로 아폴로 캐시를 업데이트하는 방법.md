@@ -2,7 +2,7 @@
 
 <https://medium.freecodecamp.org/how-to-update-the-apollo-clients-cache-after-a-mutation-79a0df79b840>
 
-Apollo Client는 GraphQL 서버로 부터 데이터를 가져올 대 사용됩니다. Apollo Client는 작고, 유연하고, 많은 놀라운 장점을 가지고 있습니다. 그 중에도 가장 고평가 되는 장점은 아마도 캐시를 자동으로 업데이트하는 것입니다.
+Apollo Client는 GraphQL 서버로 부터 데이터를 가져올 때 사용됩니다. Apollo Client는 작고, 유연하고, 많은 놀라운 장점을 가지고 있습니다. 그 중에도 가장 고평가 되는 장점은 아마도 캐시를 자동으로 업데이트하는 것입니다.
 
 
 

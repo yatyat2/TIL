@@ -1,4 +1,4 @@
-# 아폴로 클라이언트 - Local state manegement
+# Local state manegement
 
  어떻게 아폴로 클라이언트에서 로컬 데이터가 작동하는지 알아보자
 
